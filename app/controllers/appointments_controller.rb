@@ -2,9 +2,11 @@ class AppointmentsController < ApplicationController
 
 	def index 
 		appointments = Appointment.all
-		if start_time = params[:start_time]
-			puts perams
-			appointments = appointments.where(start_time: start_time)
+		params_clone = params
+		params_clone.delete(:controller)
+		params_clone.delete(:action)
+		unless params_clone.empty?
+			appointments = Search.new.criteria(params_clone)
 		end
 		render json: appointments, status: 200
 	end
@@ -13,9 +15,8 @@ class AppointmentsController < ApplicationController
 		appointment = Appointment.new(appointment_params)
 
 		if appointment.save
-			if appointment.check
-				render json: appointment, status: 201, location: appointment
-			end
+		# if appointment.check && appointment.save
+			render json: appointment, status: 201, location: appointment
 		else
 			render json: appointment.errors, status: 422
 		end
