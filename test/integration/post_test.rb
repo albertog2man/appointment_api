@@ -2,7 +2,7 @@ class AppointmentPostTest < ActionDispatch::IntegrationTest
 	test 'creates appointment' do
 		post '/appointments',
 		{ appointment:
-			{first_name: 'Bill', last_name: 'Gonzo', start_time:'5:00', end_time: '6:00'}
+			{first_name: 'Bill', last_name: 'Gonzo', start_time:'5:00', end_time: '6:00', day: '13',month: '10', year: '2014'}
 		}.to_json,
 		{'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
 
@@ -16,7 +16,7 @@ class AppointmentPostTest < ActionDispatch::IntegrationTest
 	test 'cant create invalid appointment' do
 		post '/appointments',
 		{ appointment:
-			{first_name: nil, last_name: 'Gonzo', start_time:'5:00', end_time: '6:00'}
+			{first_name: nil, last_name: 'Gonzo', start_time:'5:00', end_time: '6:00', day: '13',month: '10', year: '2014'}
 		}.to_json,
 		{'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
 

@@ -1,5 +1,7 @@
 class AppointmentPatchTest < ActionDispatch::IntegrationTest
-	setup {@appointment = Appointment.create!(first_name: 'Bill',last_name: 'Gonzo',start_time: '6:00',end_time: '7:00')}
+	setup {@appointment = Appointment.create!(
+		first_name: 'Bill',last_name: 'Gonzo',start_time: '6:00',end_time: '7:00', day: '13',month: '10', year: '2014'
+		)}
 
 	test 'successfully updated' do
 		patch "/appointments/#{@appointment.id}",
