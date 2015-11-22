@@ -14,8 +14,8 @@ class AppointmentsController < ApplicationController
 	def create 
 		appointment = Appointment.new(appointment_params)
 
-		if appointment.save
-		# if appointment.check && appointment.save
+		# if appointment.save
+		if appointment.check && appointment.save
 			render json: appointment, status: 201, location: appointment
 		else
 			render json: appointment.errors, status: 422

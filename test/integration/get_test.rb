@@ -9,10 +9,10 @@ class AppointmentGetTest < ActionDispatch::IntegrationTest
 
 	test 'filtering appointments by one criteria' do
 		first_appointment = Appointment.create!(
-			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '10', year: '2014'
+			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '12', year: '2015'
 		 )
 		second_appointment = Appointment.create!(
-			first_name: 'Ed',last_name: 'toro',start_time: '9:00',end_time: '10:00', day: '13',month: '10', year: '2014'
+			first_name: 'Ed',last_name: 'toro',start_time: '9:00',end_time: '10:00', day: '13',month: '12', year: '2015'
 		 )
 
 		get '/appointments?start_time=5:00',{},{'Accept' => Mime::JSON}
@@ -26,10 +26,10 @@ class AppointmentGetTest < ActionDispatch::IntegrationTest
 
 	test 'filtering appointments by two criteria' do
 		first_appointment = Appointment.create!(
-			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '10', year: '2014'
+			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '12', year: '2015'
 		 )
 		second_appointment = Appointment.create!(
-			first_name: 'Ed',last_name: 'toro',start_time: '5:00',end_time: '10:00', day: '13',month: '10', year: '2014'
+			first_name: 'Ed',last_name: 'toro',start_time: '5:00',end_time: '10:00', day: '13',month: '12', year: '2015'
 		 )
 
 		get '/appointments?start_time=5:00&first_name=Bill',{},{'Accept' => Mime::JSON}
@@ -43,10 +43,10 @@ class AppointmentGetTest < ActionDispatch::IntegrationTest
 
 	test 'filtering appointments by three criteria' do
 		first_appointment = Appointment.create!(
-			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '10', year: '2014'
+			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00', day: '13',month: '12', year: '2015'
 		 )
 		second_appointment = Appointment.create!(
-			first_name: 'Bill',last_name: 'Toro',start_time: '5:00',end_time: '10:00', day: '13',month: '10', year: '2014'
+			first_name: 'Bill',last_name: 'Toro',start_time: '5:00',end_time: '10:00', day: '13',month: '12', year: '2015'
 		 )
 
 		get '/appointments?start_time=5:00&first_name=Bill&last_name=Toro',{},{'Accept' => Mime::JSON}
