@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppointmentTests < ActionDispatch::IntegrationTest
+class AppointmentGetTest < ActionDispatch::IntegrationTest
 
 	test 'list of all appointments' do
 		get '/appointments'
@@ -8,6 +8,20 @@ class AppointmentTests < ActionDispatch::IntegrationTest
 	end
 
 	test 'filtering appointments' do
-		first_appointment = Appointment.create!()
+		first_appointment = Appointment.create!(
+			first_name: 'Bill',last_name: 'Gonzo',start_time: '5:00',end_time: '6:00'
+		 )
+		second_appointment = Appointment.create!(
+			first_name: 'Ed',last_name: 'toro',start_time: '9:00',end_time: '10:00'
+		 )
+
+		get '/appointments?start_time=5:00',{},{'Accept' => Mime::JSON}
+		assert_equal 200, response.status
+		assert_equal Mime::JSON, response.content_type
+		appointments = json(response.body)
+		names = appointments.collect {|app| app[:first_name]}
+		assert_includes names, "Bill"
+		refute_includes names, "Ed"
 	end
+
 end
