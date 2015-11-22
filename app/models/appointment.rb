@@ -55,13 +55,14 @@ class Appointment < ActiveRecord::Base
 		@valid = false unless self.end_time =~ /^([0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]|)([ap][m]|)$/   #
 		#**************************************************************************************************
 
-		#converts time to e.g. 05:00pm
-		convert_format_to_standard(self.start_time)
-		convert_format_to_standard(self.end_time)
+		#converts time to standard time. e.g. 05:00pm
+		self.start_time = convert_format_to_standard(self.start_time)
+		self.end_time = convert_format_to_standard(self.end_time)
 
 	end
 
 	def convert_format_to_standard(time)
+
 		case time 
 
 			#**********************************************
@@ -73,12 +74,49 @@ class Appointment < ActiveRecord::Base
 				elsif time.to_i >= 7 && time.to_i <= 9    # and if so then it will assume that the user ment business hours
 					return time = "0#{time}:00am"         # so it will convert it to such
 				elsif time.to_i <= 6 && time.to_i >= 1    #
-					return time = "0#{time}:00am"         #
+					return time = "0#{time}:00pm"         #
 				end                                       #
 			#**********************************************	
 
-			when /^([1-9]|[1][0-2])[ap][m]$/
-				if time[1] == 'p' || time[2] == 'p'
+			#**********************************************
+			when /^([1-9]|[1][0-2])[ap][m]$/              #
+				if time =~ /^[1-9][ap][m]$/				  #
+					time = "0#{time}"					  # This checks to see if a user enterd a digit 1-12 with pm or am
+					time = time.insert(2,':00')           # at the end of it.
+				elsif time =~ /^[1][0-2][ap][m]$/         #
+					time = time.insert(2,':00')           #
+				end               						  #
+			#**********************************************
+
+			#**********************************************
+			when /^[0-9]:[0-5][0-9]$/				  	  #
+				time = "0#{time}"					  	  #
+				hour = time[0..1].to_i                	  # Checks for when a user enters something like 5:00 
+				if hour >= 7 && hour <= 9          	      # once again assuming they mean business hours
+					return time += "am"              	  # 
+				elsif hour <= 6 && hour >= 1          	  #
+					return time += "pm"               	  #
+				end 								 	  #
+			#**********************************************
+
+			#**********************************************
+			when /^1[0-2]:[0-5][0-9]$/				  	  #	
+				hour = time[0..1].to_i                	  # 
+				if hour == 12 						  	  # Checks for when a user enters something like 10:00
+					return time += 'pm'				  	  # gain assuming they mean business hours
+				elsif hour == 10 || hour == 11        	  # 
+					return time += 'am'				   	  #
+				end 									  #
+			#**********************************************
+
+			#**********************************************
+			when /^([1-9]|1[0-2]):[0-5][0-9][ap][m]$/     #
+				if time =~ /^[1-9]:[0-5][0-9][ap][m]$/	  #
+					return time = "0#{time}"			  # Checks to see if user entered something like 10:30pm or 5:30pm
+				elsif time =~ /^1[0-2]:[0-5][0-9][ap][m]$/#
+					return time   						  #
+				end  									  #
+			#**********************************************
 
 		end
 	end
