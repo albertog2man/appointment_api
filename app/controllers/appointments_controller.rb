@@ -3,6 +3,7 @@ class AppointmentsController < ApplicationController
 	def index 
 		appointments = Appointment.all
 		if start_time = params[:start_time]
+			puts perams
 			appointments = appointments.where(start_time: start_time)
 		end
 		render json: appointments, status: 200
@@ -10,8 +11,11 @@ class AppointmentsController < ApplicationController
 
 	def create 
 		appointment = Appointment.new(appointment_params)
+
 		if appointment.save
-			render json: appointment, status: 201, location: appointment
+			if appointment.check
+				render json: appointment, status: 201, location: appointment
+			end
 		else
 			render json: appointment.errors, status: 422
 		end
@@ -34,6 +38,6 @@ class AppointmentsController < ApplicationController
 
 private
 	def appointment_params
-		params.require(:appointment).permit(:first_name,:last_name,:start_time,:end_time)
+		params.require(:appointment).permit(:day,:month,:year,:first_name,:last_name,:start_time,:end_time)
 	end
 end
