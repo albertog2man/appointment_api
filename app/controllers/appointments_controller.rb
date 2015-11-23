@@ -5,9 +5,16 @@ class AppointmentsController < ApplicationController
 		search = Search.new
 		relavent_params = search.clean_params(params)
 		unless relavent_params.empty?
-			appointments = search.criteria(relavent_params)
+			relavent_params = search.standardize_params(relavent_params)
+			unless relavent_params == false
+				appointments = search.criteria(relavent_params)
+				render json: appointments, status: 200
+			else
+				head 400
+			end
+		else
+			render json: appointments, status: 200
 		end
-		render json: appointments, status: 200
 	end
 
 	def create 
@@ -36,8 +43,12 @@ class AppointmentsController < ApplicationController
 
 	def destroy
 		appointment = Appointment.find(params[:id])
-		appointment.destroy
-		head 204
+		unless appointment.nil?
+			appointment.destroy
+			head 204
+		else
+			head 404
+		end
 	end
 
 private

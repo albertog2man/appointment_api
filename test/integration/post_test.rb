@@ -98,7 +98,19 @@ class AppointmentPostTest < ActionDispatch::IntegrationTest
 
 		assert_equal 201, response.status
 		assert_equal Mime::JSON, response.content_type
-		puts response.body
+		appointment = json(response.body)
+		assert_equal appointment_url(appointment[:id]), response.location
+	end
+	test 'creates appointment with time shortcut 6'  do
+		post '/appointments',
+		{ appointment:
+			{first_name: 'Alex', last_name: 'Gonzo', start_time:'10:00pm', end_time: '06:00pm', day: '24',month: 'Nov', year: '2015'}
+		}.to_json,
+		{'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s}
+
+		assert_equal 201, response.status
+		assert_equal Mime::JSON, response.content_type
+
 		appointment = json(response.body)
 		assert_equal appointment_url(appointment[:id]), response.location
 	end

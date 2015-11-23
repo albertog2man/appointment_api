@@ -18,6 +18,10 @@ class Appointment < ActiveRecord::Base
 		check_availability		
 		@valid
 	end
+	def time(time)
+		convert_format_to_standard(time)
+
+	end
 	#this method returns either false or a object with time in standard form
 	def check_params(params)
 
@@ -31,7 +35,7 @@ class Appointment < ActiveRecord::Base
 
 	end
 
-	private
+
 	def check_year
 		#This will check to make sure the year is either current or next 5
 		@valid = false unless self.year =~ /^(201[5-9]|2020)$/
@@ -52,9 +56,11 @@ class Appointment < ActiveRecord::Base
 			self.month = Date::MONTHNAMES[month_numeric]
 		elsif self.month.length == 3
 			Date::MONTHNAMES.each_with_index do |month,index|
-				if month[0..2] == self.month
-					month_numeric = index
-					self.month = month
+				if index > 0
+					if month[0..2] == self.month
+						month_numeric = index
+						self.month = month
+					end
 				end
 			end
 		else
@@ -75,7 +81,9 @@ class Appointment < ActiveRecord::Base
 		@valid = false unless self.day.to_i <= Time.days_in_month(@month_numeric) && self.day.to_i > 0
 
 		if @current_month 
-			@valid = false unless self.day.to.i >= Time.new.day
+			unless self.day.to_i >= Time.new.day
+				@valid = false
+			end
 			@current_day = true if self.day.to_i == Time.new.day
 		end
 	end
@@ -148,9 +156,10 @@ class Appointment < ActiveRecord::Base
 			#**********************************************
 
 			#************************************************
-			when /^([1-9]|1[0-2]):[0-5][0-9][ap][m]$/       #
+			when /^([0][1-9]|[1-9]|1[0-2]):[0-5][0-9][ap][m]$/#
 				if time =~ /^[1-9]:[0-5][0-9][ap][m]$/	    #
-					return time = "0#{time}"                #
+					time = "0#{time}"						#
+					return time          					#
 				elsif time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/#Checks to see if user entered something like 10:30pm or 5:30pm
 					return time                             #
 				elsif time =~ /^1[0-2]:[0-5][0-9][ap][m]$/  #
