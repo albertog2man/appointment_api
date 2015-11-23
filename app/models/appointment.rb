@@ -37,8 +37,8 @@ class Appointment < ActiveRecord::Base
 
 
 	def check_year
-		#This will check to make sure the year is either current or next 5
-		@valid = false unless self.year =~ /^(201[5-9]|2020)$/
+		#This will check to make sure the year is between 2013 - 2020
+		@valid = false unless self.year =~ /^(201[3-9]|2020)$/
 		@valid = false unless self.year.to_i >= Time.new.year
 		#checks if its current year
 		@current_year = true if self.year.to_i == Time.new.year

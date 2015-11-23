@@ -52,7 +52,7 @@ class Search
 				value = appointment.time(key)
 				params[key] = value
 			when "year"
-				@valid = false unless value =~ /^(201[5-9]|2020)$/
+				@valid = false unless value =~ /^(201[3-9]|2020)$/
 			when "month"
 				if Date::MONTHNAMES.index(value)
 				elsif value =~ /^([1-9]|[1][0-2])$/

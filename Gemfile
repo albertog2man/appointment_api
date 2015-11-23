@@ -5,8 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 gem 'pg'
 gem 'smarter_csv'
-gem 'heroku'
-gem 'httparty'
+gem 'unirest'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

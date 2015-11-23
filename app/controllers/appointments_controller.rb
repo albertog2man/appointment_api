@@ -9,6 +9,8 @@ class AppointmentsController < ApplicationController
 			unless relavent_params == false
 				appointments = search.criteria(relavent_params)
 				render json: appointments, status: 200
+			else
+				head 400
 			end
 		else
 			render json: appointments, status: 200
