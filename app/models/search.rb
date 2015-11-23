@@ -49,7 +49,7 @@ class Search
 				value = appointment.time(value)
 				params[key] = value
 			when "end_time" 
-				value = appointment.time(key)
+				value = appointment.time(value)
 				params[key] = value
 			when "year"
 				@valid = false unless value =~ /^(201[3-9]|2020)$/
