@@ -2,11 +2,10 @@ class AppointmentsController < ApplicationController
 
 	def index 
 		appointments = Appointment.all
-		params_clone = params
-		params_clone.delete(:controller)
-		params_clone.delete(:action)
-		unless params_clone.empty?
-			appointments = Search.new.criteria(params_clone)
+		search = Search.new
+		relavent_params = search.clean_params(params)
+		unless relavent_params.empty?
+			appointments = search.criteria(relavent_params)
 		end
 		render json: appointments, status: 200
 	end
@@ -14,7 +13,6 @@ class AppointmentsController < ApplicationController
 	def create 
 		appointment = Appointment.new(appointment_params)
 
-		# if appointment.save
 		if appointment.check && appointment.save
 			render json: appointment, status: 201, location: appointment
 		else
@@ -24,8 +22,13 @@ class AppointmentsController < ApplicationController
 
 	def update
 		appointment = Appointment.find(params[:id])
-		if appointment.update(appointment_params)
-			render json: appointment, status: 200
+		new_appointment = appointment.check_params(appointment_params)
+		if new_appointment
+			if appointment.update(new_appointment.attributes)
+				render json: appointment, status: 200
+			else
+				render json: appointment.errors, status: 422
+			end
 		else
 			render json: appointment.errors, status: 422
 		end

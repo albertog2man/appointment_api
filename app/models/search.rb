@@ -1,9 +1,7 @@
 class Search 
 
-
 	# This method allows me to sort results with up to 3 criteria.
-	# Probably one of those things I'll look back on in a year say "Oh god I was bad"
-	
+
 	def criteria(hash)
 		arr_of_keys = []
 		arr_of_values = []
@@ -31,5 +29,13 @@ class Search
 		else 
 			p "Arrays are out of bounds, this should never be printed"
 		end
+	end
+
+	def clean_params(params)
+
+		params.delete(:controller)
+		params.delete(:action)
+
+		params
 	end
 end

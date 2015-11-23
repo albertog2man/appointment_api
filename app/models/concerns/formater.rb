@@ -1,12 +1,4 @@
-class Appointment < ActiveRecord::Base
-
-	validates :first_name, presence: true
-	validates :last_name, presence: true
-	validates :start_time, presence: true
-	validates :end_time, presence: true
-	validates :day, presence: true
-	validates :month, presence: true
-	validates :year, presence: true
+class Formatter
 
 	def check
 		@valid = true
@@ -18,20 +10,8 @@ class Appointment < ActiveRecord::Base
 		check_availability		
 		@valid
 	end
-	#this method returns either false or a object with time in standard form
-	def check_params(params)
 
-		self.assign_attributes(params)
-		self.check
-		return false unless @valid
-		return self
-	end
-
-	def get_valid_params
-
-	end
-
-	private
+	private 	
 	def check_year
 		#This will check to make sure the year is either current or next 5
 		@valid = false unless self.year =~ /^(201[5-9]|2020)$/
@@ -68,14 +48,10 @@ class Appointment < ActiveRecord::Base
 		@valid = false unless self.start_time =~ /^([0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]|)([ap][m]|)$/ #
 		@valid = false unless self.end_time =~ /^([0-9]|0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]|)([ap][m]|)$/   #
 		#**************************************************************************************************
-		#converts time to standard time. e.g. 05:00pm
-		unless self.start_time =~ /^1[0-2]:[0-5][0-9][ap][m]$/ || self.start_time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/
-			self.start_time = convert_format_to_standard(self.start_time)
-		end
-		unless self.end_time =~ /^1[0-2]:[0-5][0-9][ap][m]$/ || self.end_time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/
-			self.end_time = convert_format_to_standard(self.end_time)
-		end
 
+		#converts time to standard time. e.g. 05:00pm
+		self.start_time = convert_format_to_standard(self.start_time)
+		self.end_time = convert_format_to_standard(self.end_time)
 	end
 
 	def convert_format_to_standard(time)
@@ -106,7 +82,7 @@ class Appointment < ActiveRecord::Base
 			#**********************************************
 
 			#**********************************************
-			when /^[1-9]:[0-5][0-9]$/				  	  #
+			when /^[0-9]:[0-5][0-9]$/				  	  #
 				time = "0#{time}"					  	  #
 				hour = time[0..1].to_i                	  # Checks for when a user enters something like 5:00 
 				if hour >= 7 && hour <= 9          	      # once again assuming they mean business hours
@@ -129,21 +105,17 @@ class Appointment < ActiveRecord::Base
 			#**********************************************
 			when /^([1-9]|1[0-2]):[0-5][0-9][ap][m]$/     #
 				if time =~ /^[1-9]:[0-5][0-9][ap][m]$/	  #
-					return time = "0#{time}"              #
-				elsif time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/#   Checks to see if user entered something like 10:30pm or 5:30pm
-					return time
+					return time = "0#{time}"			  # Checks to see if user entered something like 10:30pm or 5:30pm
 				elsif time =~ /^1[0-2]:[0-5][0-9][ap][m]$/#
 					return time   						  #
 				end  									  #
 			#**********************************************
-		else
-			@valid = false
 		end
 	end
 
 	def check_availability
-		return false unless @valid
 		appointments = Appointment.all
+
 		this_appointment_start = Time.parse("#{self.start_time}").to_i
 		this_appointment_end = Time.parse("#{self.end_time}").to_i
 		this_appointment_duration = this_appointment_start..this_appointment_end
@@ -159,25 +131,4 @@ class Appointment < ActiveRecord::Base
 			end
 		end
 	end
-
-
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
