@@ -17,7 +17,7 @@ namespace :load do
 
 
 	def get_time(time)
-		time = arrange(time)
+		t = arrange(time)
 		t = Time.parse(time)
 		t = t.strftime('%r')
 		t[-6..-3] = ''
@@ -67,8 +67,8 @@ namespace :load do
 		month = get_month(hash[:start_time])
 		day = get_day(hash[:start_time])
 
-		# response = Unirest.post "https://guarded-fjord-3968.herokuapp.com/appointments", 
-		response = Unirest.post "localhost:3000/appointments", 
+		response = Unirest.post "https://guarded-fjord-3968.herokuapp.com/appointments", 
+		# response = Unirest.post "localhost:3000/appointments", 
              headers:{ "Accept" => "application/json",'Content-Type' => 'application/json' }, 
              parameters:{appointment: 
     				{
@@ -76,8 +76,8 @@ namespace :load do
 					last_name: last_name,
 	    			start_time: start_time, 
 					end_time: end_time, 
-					day: day, 
-					month: month, 
+					day: '11', 
+					month: 'November', 
 					year: '2016', 
 					}
             	}.to_json
