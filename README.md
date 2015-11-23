@@ -8,23 +8,23 @@ Get request can be done with criteria or without.
 
 ####Simple request for all appointments:
 
-'https://guarded-fjord-3968.herokuapp.com/appointment'
+`https://guarded-fjord-3968.herokuapp.com/appointment`
 
 or 
 
-'https://https://guarded-fjord-3968.herokuapp.com/
+`https://https://guarded-fjord-3968.herokuapp.com/`
 
-'/appointments' is optional.
+`/appointments` is optional.
 
 ####Request for appointments with one criteria:
 
-'https://https://guarded-fjord-3968.herokuapp.com/', '?start_time=05:00pm'
+`https://https://guarded-fjord-3968.herokuapp.com/`, `?start_time=05:00pm`
 
 This will give you a filtered list of appointments
 
 ####Request with mutliple criteria:
 
-'https://https://guarded-fjord-3968.herokuapp.com/', '?start_time=05:00pm&month=December'
+`https://https://guarded-fjord-3968.herokuapp.com/`, `?start_time=05:00pm&month=December`
 
 This will give you a filtered list of appointments that match both criteria.
 As many as 3 criteria can be used at one time.
