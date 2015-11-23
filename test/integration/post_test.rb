@@ -98,7 +98,7 @@ class AppointmentPostTest < ActionDispatch::IntegrationTest
 
 		assert_equal 201, response.status
 		assert_equal Mime::JSON, response.content_type
-
+		puts response.body
 		appointment = json(response.body)
 		assert_equal appointment_url(appointment[:id]), response.location
 	end

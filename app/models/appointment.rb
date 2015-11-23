@@ -35,23 +35,44 @@ class Appointment < ActiveRecord::Base
 	def check_year
 		#This will check to make sure the year is either current or next 5
 		@valid = false unless self.year =~ /^(201[5-9]|2020)$/
+		@valid = false unless self.year.to_i >= Time.new.year
 		#checks if its current year
 		@current_year = true if self.year.to_i == Time.new.year
 	end
 
 	def check_month
-		#checks if the month is a number between 1-12 and if its current or upcoming
-		@valid = false unless self.month =~ /^[1-9]([0-2]|)$/
-		if @current_year == true
-			@valid = false unless self.month.to_i >= Time.new.month
-			#checks for current month
-			@current_month = true if self.month.to_i == Time.new.month
+
+		#checks if the month is a number between 1-12 or for the name or abriv and if its current or upcoming
+		month_numeric = 0
+		self.month.downcase.capitalize
+		if Date::MONTHNAMES.index(self.month)
+			month_numeric = Date::MONTHNAMES.index(self.month)
+		elsif self.month =~ /^([1-9]|[1][0-2])$/
+			month_numeric = self.month.to_i
+			self.month = Date::MONTHNAMES[month_numeric]
+		elsif self.month.length == 3
+			Date::MONTHNAMES.each_with_index do |month,index|
+				if month[0..2] == self.month
+					month_numeric = index
+					self.month = month
+				end
+			end
+		else
+			@valid = false
 		end
+		if @valid == true
+			if @current_year == true
+				@valid = false unless month_numeric >= Time.new.month
+				#checks for current month
+				@current_month = true if month_numeric == Time.new.month
+			end
+		end
+		@month_numeric = month_numeric
 	end
 
 	def check_day
 		#checks if the day is between 1 - 31 or 30, depends on the month chosen.
-		@valid = false unless self.day.to_i <= Time.days_in_month(self.month.to_i) && self.day.to_i > 0
+		@valid = false unless self.day.to_i <= Time.days_in_month(@month_numeric) && self.day.to_i > 0
 
 		if @current_month 
 			@valid = false unless self.day.to.i >= Time.new.day
@@ -126,16 +147,16 @@ class Appointment < ActiveRecord::Base
 				end 									  #
 			#**********************************************
 
-			#**********************************************
-			when /^([1-9]|1[0-2]):[0-5][0-9][ap][m]$/     #
-				if time =~ /^[1-9]:[0-5][0-9][ap][m]$/	  #
-					return time = "0#{time}"              #
-				elsif time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/#   Checks to see if user entered something like 10:30pm or 5:30pm
-					return time
-				elsif time =~ /^1[0-2]:[0-5][0-9][ap][m]$/#
-					return time   						  #
-				end  									  #
-			#**********************************************
+			#************************************************
+			when /^([1-9]|1[0-2]):[0-5][0-9][ap][m]$/       #
+				if time =~ /^[1-9]:[0-5][0-9][ap][m]$/	    #
+					return time = "0#{time}"                #
+				elsif time =~ /^[0][1-9]:[0-5][0-9][ap][m]$/#Checks to see if user entered something like 10:30pm or 5:30pm
+					return time                             #
+				elsif time =~ /^1[0-2]:[0-5][0-9][ap][m]$/  #
+					return time   						    #
+				end  									    #
+			#************************************************
 		else
 			@valid = false
 		end
@@ -163,21 +184,3 @@ class Appointment < ActiveRecord::Base
 
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
