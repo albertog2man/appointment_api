@@ -1,10 +1,10 @@
 # Appointment API
 
-This is an appointment API created to manage appointments. It implements CRUD, allowing you to create, edit, list and destroy appointments. Ruby backed by the Rails framework are the technologies used. This API follows the principle of least surprise. It allows users to enter the date and time in multiple formats, if essential data is missing it will try to assume what a user ment. This api also checks to make sure time doesnt overlap and that it is in a valid day in the future. When searching for data, it will allow up to 3 different criteria to help narrow search results.
+This is an appointment API created to manage appointments. It implements CRUD, allowing you to create, edit, list and destroy appointments. Ruby backed by the Rails framework are the technologies used. This API follows the principle of least surprise. It allows users to enter the date and time in multiple formats, if essential data is missing it will try to assume what a user meant. This api also checks to make sure time doesn't overlap and that it is in a valid day in the future. When searching for data, it will allow up to 3 different criteria to help narrow search results.
 
 ###Formats
 
-Several different time and date syntaxes are supported. If the time syntax used doesnt not specifiy am or pm it will assume business hours.
+Several different time and date syntaxes are supported. If the time syntax used doesn't not specify am or pm it will assume business hours.
 
 #### Time Formats
 |                             |         |                                         |
@@ -44,7 +44,7 @@ GET `https://https://guarded-fjord-3968.herokuapp.com/`
 
 GET `https://https://guarded-fjord-3968.herokuapp.com/`, `?start_time=05:00pm`
 
-This will give you a filtered list of appointments
+This will give you a filtered list of appointments.
 
 ####Request with mutliple criteria:
 
@@ -55,7 +55,7 @@ As many as 3 criteria can be used at one time.
 
 ###POST Request
 
-Post request must be in any of the valid formats as well as a valid date in the future. The fields ```start_time, end_time, day, month, year, first_name, last_name``` are required. Comments is an optional field 
+Post request must be in any of the valid formats as well as a valid date in the future. The fields ```start_time, end_time, day, month, year, first_name, last_name``` are required. Comments is an optional field.
 
 ####Sample request
 	
