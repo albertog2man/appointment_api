@@ -14,7 +14,7 @@ Several different time and date syntaxes are supported. If the time syntax used 
 | hour and minutes no am/pm   |   5:00  | Assumes business hours                  |
 | hour and minutes no am/pm   |  05:00  | Assumes business hours                  |
 | hour and minutes with am/pm |  5:00pm | Uses exact time                         |
-| hour and minutes with am/pm | 05:00pm | all other formats get converted to this |
+| hour and minutes with am/pm | 05:00pm | All other formats get converted to this |
 |                             |         |                                         |
 
 #### Date Formats
@@ -22,8 +22,8 @@ Several different time and date syntaxes are supported. If the time syntax used 
 |                           |          |                                         |
 |---------------------------|----------|-----------------------------------------|
 | The numeric value         |    12    | Month numbers 1 - 12                    |
-| Three letter abbreviation |    Dec   | Must be first 3 letters caps insensitve |
-| Full month name           | December | Full name caps insensitve               |
+| Three letter abbreviation |    Dec   | Must be first 3 letters caps insensitive|
+| Full month name           | December | Full name caps insensitive              |
 |                           |          |                                         |
 
 ###GET Request
