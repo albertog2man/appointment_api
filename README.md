@@ -70,7 +70,7 @@ POST https://https://guarded-fjord-3968.herokuapp.com/appointments
  \#\#\#WARNING\#\#\#  
 \#This is distructive\#
   
-  Patch requests are validated just like post requests. They do not create a new entity they alter an existing. A appointment ID number is required to do a patch request.
+  Patch requests are validated just like post requests. They do not create a new entity they alter an existing. An appointment ID number is required to do a patch request.
 
 ```
 PATCH https://https://guarded-fjord-3968.herokuapp.com/appointments/1
@@ -83,7 +83,7 @@ PATCH https://https://guarded-fjord-3968.herokuapp.com/appointments/1
  \#\#\#WARNING\#\#\#  
 \#This is distructive\#
 
-  Delete requires a appointment ID.
+  Delete requires an appointment ID.
 
 ```
 DELETE "https://https://guarded-fjord-3968.herokuapp.com/appointments/1"
